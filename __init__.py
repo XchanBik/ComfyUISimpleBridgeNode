@@ -13,7 +13,7 @@ def __init__(self):
 NODE_CLASS_MAPPINGS = {
     "SimpleBridgeStoreNode": SimpleBridgeStoreNode,
     "SimpleBridgeLoadNode": SimpleBridgeLoadNode,
-    "SimpleTextLoader": TextLoader
+    "SimpleTextLoader": TextLoadNode
 }
 
 # Node display names

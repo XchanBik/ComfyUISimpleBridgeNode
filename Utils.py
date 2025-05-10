@@ -52,7 +52,7 @@ def filter_files_by_extension(files: Collection[str], extensions: Collection[str
     return sorted(list(filter(lambda a: os.path.splitext(a)[-1].lower() in extensions or len(extensions) == 0, files)))
   
 def get_filename_list(folder_name: str, extension: str) -> tuple[list[str], dict[str, float], float]:
-    var full_path = os.path.join(models_dir, folder_name)
+    full_path = os.path.join(models_dir, folder_name)
     output_list = set
     folders = full_path
     output_folders = {}

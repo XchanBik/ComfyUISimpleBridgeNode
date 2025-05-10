@@ -8,21 +8,17 @@ bridge_store = {}
 
 class BridgeStoreNode:
     """Store node that accepts any input and saves it with a unique identifier"""
-    
+     
     @classmethod
     def INPUT_TYPES(cls):
-        return {
-            "required": {
-                "bridge_id": ("STRING", {"default": "my_key"})
-            }
-        }
+        return {"required": {}}  
+    # Flag that tells ComfyUI this node can accept any input type
+    INPUT_IS_LIST = True      
     
     RETURN_TYPES = ()
     FUNCTION = "store"
     CATEGORY = "SimpleBridgeNode"
     
-    # Flag that tells ComfyUI this node can accept any input type
-    INPUT_IS_LIST = True
     
     def store(self, bridge_id, **kwargs):
         """Store the input data with the given bridge_id"""

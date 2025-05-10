@@ -5,11 +5,14 @@ class BridgeStoreNode:
     def INPUT_TYPES(cls):
         return {
             "required": {
+                "model": ("MODEL", ),            
                 "data": (["LATENT", "CONDITIONING", "IMAGE", "STRING", "ANY"],),
                 "bridge_id": ("STRING", {"default": "my_key"})
+            },
+            "optional": {
+                "vae": ("VAE",),
             }
         }
-
     RETURN_TYPES = ()
     FUNCTION = "store"
 

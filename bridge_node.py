@@ -9,6 +9,12 @@ import json
 import traceback
 from server import PromptServer
 
+class AnyType(str):
+    def __ne__(self, __value: object) -> bool:
+        return False
+
+any = AnyType("*")
+
 # Global bridge storage
 class BridgeStorage:
     def __init__(self):

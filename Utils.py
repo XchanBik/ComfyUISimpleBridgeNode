@@ -15,6 +15,9 @@ def get_filename_list(folder_name: str, extension: str) -> tuple[list[str], dict
     folders = folder_names_and_paths[folder_name]
     output_folders = {}
 
+    # Debug print to verify filenames
+    print(f"[get_filename_list] Folders found: {folders}")    
+    
     # Let's manually handle the extension filtering inside this loop
     for x in folders[0]:
         files, folders_all = recursive_search(x, excluded_dir_names=[".git"])

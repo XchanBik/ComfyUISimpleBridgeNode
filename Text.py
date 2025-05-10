@@ -2,21 +2,12 @@ cat = "XchanBik/Text"
 
 import os
 import folder_paths
-
-def filter_files_by_extension(files: list[str], extension: str) -> list[str]:
-    # Call the existing function
-    filename_list, folders_all, timestamp = folder_paths.get_filename_list_("loras")
-    
-    # Debug print to verify filenames
-    print(f"[filter_files_by_extension] Files found: {filename_list}")
-    
-    # Filter the result by extension
-    return [file for file in filename_list if file.endswith(extension)]
+from Utils import get_filename_list,
     
 class LoraTextLoader:
     @classmethod
     def INPUT_TYPES(cls):        
-        lora_list = filter_files_by_extension("loras", extension=".txt")
+        lora_list = get_filename_list("loras", extension=".txt")
         if 0 == len(lora_list):
             lora_list.insert(0, "None")
         return {

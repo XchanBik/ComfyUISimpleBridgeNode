@@ -7,7 +7,7 @@ class LoraTextLoader:
     def INPUT_TYPES(cls):
         return {
             "required": {
-                "text_file": (['None'] + folder_paths.get_filename_list("loras_texts"),),  # Load .txt files
+                "text_file": (['None'] + folder_paths.get_filename_list("loras"),),  # Load .txt files
             }
         }
 

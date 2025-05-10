@@ -1,16 +1,16 @@
-// ComfyUI.mxToolkit.Bridge v.0.1.0
+// ComfyUI.SimpleBridgeNode v.0.1.0
 import { app } from "../../scripts/app.js";
 
 app.registerExtension({
-    name: "Comfy.MxBridgeNode",
+    name: "SimpleBridgeNode",
     registerCustomNodes(app) {
         // Global storage for bridges
-        if (!window.mxBridgeStorage) {
-            window.mxBridgeStorage = {};
+        if (!window.SimpleBridgeStorage) {
+            window.SimpleBridgeStorage = {};
         }
 
         // Store Bridge Node
-        class MxStoreBridgeNode extends LGraphNode {
+        class StoreBridgeNode extends LGraphNode {
             constructor() {
                 super("Store Bridge");
                 this.addInput("input", "*");
@@ -40,7 +40,7 @@ app.registerExtension({
                         this.outputs[0].type = outputType;
                         
                         // Store the connection type in the named bridge
-                        window.mxBridgeStorage[this.properties.bridge_name] = {
+                        window.BridgeStorage[this.properties.bridge_name] = {
                             type: outputType
                         };
                         
@@ -65,7 +65,7 @@ app.registerExtension({
                     if (name === "bridge_name") {
                         // Register this bridge name with its type
                         if (this.linkType !== "*") {
-                            window.mxBridgeStorage[value] = {
+                            window.BridgeStorage[value] = {
                                 type: this.linkType
                             };
                         }
@@ -78,7 +78,7 @@ app.registerExtension({
                 const input = this.getInputData(0);
                 if (input !== undefined) {
                     // Store the actual data
-                    window.mxBridgeStorage[this.properties.bridge_name].data = input;
+                    window.SimpleBridgeStorage[this.properties.bridge_name].data = input;
                     // Pass through the data
                     this.setOutputData(0, input);
                 }
@@ -90,7 +90,7 @@ app.registerExtension({
         }
         
         // Load Bridge Node
-        class MxLoadBridgeNode extends LGraphNode {
+        class LoadBridgeNode extends LGraphNode {
             constructor() {
                 super("Load Bridge");
                 this.addOutput("output", "*");
@@ -109,7 +109,7 @@ app.registerExtension({
                 // Update type based on bridge name
                 this.updateType = function() {
                     const bridgeName = this.properties.bridge_name;
-                    const bridge = window.mxBridgeStorage[bridgeName];
+                    const bridge = window.SimpleBridgeStorage[bridgeName];
                     
                     if (bridge && bridge.type) {
                         this.linkType = bridge.type;
@@ -138,7 +138,7 @@ app.registerExtension({
             // Called when node processes data
             onExecute() {
                 const bridgeName = this.properties.bridge_name;
-                const bridge = window.mxBridgeStorage[bridgeName];
+                const bridge = window.SimpleBridgeStorage[bridgeName];
                 
                 if (bridge && bridge.data !== undefined) {
                     this.setOutputData(0, bridge.data);
@@ -152,20 +152,20 @@ app.registerExtension({
 
         // Register the nodes
         LiteGraph.registerNodeType(
-            "mxStore",
-            Object.assign(MxStoreBridgeNode, {
-                title: "MX Store Bridge",
+            "StoreBridge",
+            Object.assign(StoreBridgeNode, {
+                title: "Simple Bridge Store",
             })
         );
         
         LiteGraph.registerNodeType(
-            "mxLoad",
-            Object.assign(MxLoadBridgeNode, {
-                title: "MX Load Bridge",
+            "LoadBridge",
+            Object.assign(LoadBridgeNode, {
+                title: "Simple Bridge Load",
             })
         );
         
-        MxStoreBridgeNode.category = "utils";
-        MxLoadBridgeNode.category = "utils";
+        StoreBridgeNode.category = "utils";
+        LoadBridgeNode.category = "utils";
     },
 });

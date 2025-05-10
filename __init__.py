@@ -3,7 +3,7 @@
 @nickname: SimpleBridgeNode
 @description: A custom node for ComfyUI to store and retrieve data dynamically.
 """
-from .Text import SimpleTextLoader
+from .Text import TextLoadNode
 from .Bridge import SimpleBridgeStoreNode, SimpleBridgeLoadNode
 
 def __init__(self):

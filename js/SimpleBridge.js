@@ -165,7 +165,7 @@ app.registerExtension({
             })
         );
         
-        StoreBridgeNode.category = "utils";
-        LoadBridgeNode.category = "utils";
+        StoreBridgeNode.category = "SimpleBridge";
+        LoadBridgeNode.category = "SimpleBridge";
     },
 });

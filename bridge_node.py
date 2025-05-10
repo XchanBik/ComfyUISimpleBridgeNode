@@ -72,7 +72,7 @@ class SimpleBridgeLoadNode:
         value = bridge_storage.get(bridge_name)
         
         if value is None:
-            print(f"Bridge '{bridge_name}' has no stored value")
+            print(f"[SimpleBridge] '{bridge_name}' has no stored value")
         
         return (value,)
 

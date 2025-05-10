@@ -8,13 +8,8 @@ import sys
 import folder_paths
 import copy
 import json
-
-
 import traceback
 from server import PromptServer
-
-
-
 
 class AnyType(str):
     def __ne__(self, __value: object) -> bool:
@@ -26,68 +21,15 @@ any = AnyType("*")
 class BridgeStorage:
     def __init__(self):
         self.storage = {}    
-
-
-
     def store(self, name, data):
-        self.storage[name] = data    
-
-
-
-
-
+        self.storage[name] = data
     def get(self, name):
-        return self.storage.get(name)    
-
-
-
-
-
-
-
-
-
-
-
+        return self.storage.get(name)
     def has(self, name):
         return name in self.storage
 
-
-
-
-
-
-
 # Create a global bridge storage instance
 bridge_storage = BridgeStorage()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 # Store Bridge Node
 class SimpleBridgeStoreNode:
@@ -123,7 +65,6 @@ class SimpleBridgeLoadNode:
                 "bridge_name": ("STRING", {"default": "bridge1"})
             }
         }
-
     RETURN_TYPES = (any,)
     RETURN_NAMES = ("value",)
     FUNCTION = "load_value"
@@ -135,7 +76,4 @@ class SimpleBridgeLoadNode:
 
         if value is None:
             print(f"[SimpleBridge] '{bridge_name}' has no stored value")
-
-
-
         return (value,)

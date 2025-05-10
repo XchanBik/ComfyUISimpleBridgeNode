@@ -69,7 +69,7 @@ def get_filename_list(folder_name: str, extension: str) -> tuple[list[str], dict
     # Update the output list with the filtered files
     output_list.update(extension_filtered_files)
         
-        # Merge folder info into output_folders
-        output_folders.update(folders_all)
+    # Merge folder info into output_folders
+    output_folders.update(folders_all)
 
     return sorted(list(output_list)), output_folders, time.perf_counter()

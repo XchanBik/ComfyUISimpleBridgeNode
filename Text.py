@@ -2,12 +2,12 @@ cat = "XchanBik/Text"
 
 import os
 import folder_paths
-from .Utils import get_filename_list
+from .Utils import get_files_with_ext
     
 class LoraTextLoader:
     @classmethod
     def INPUT_TYPES(cls):        
-        lora_list = get_filename_list("loras", extension=".txt")
+        lora_list = get_files_with_ext("loras", ".txt")
         if 0 == len(lora_list):
             lora_list.insert(0, "None")
         return {

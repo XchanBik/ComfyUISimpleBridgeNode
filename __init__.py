@@ -3,7 +3,7 @@
 @nickname: SimpleBridgeNode
 @description: A custom node for ComfyUI to store and retrieve data dynamically.
 """
-from .Text import TextLoadNode
+from .Text import LoraTextLoader
 from .Bridge import SimpleBridgeStoreNode, SimpleBridgeLoadNode
 
 def __init__(self):
@@ -13,14 +13,14 @@ def __init__(self):
 NODE_CLASS_MAPPINGS = {
     "SimpleBridgeStoreNode": SimpleBridgeStoreNode,
     "SimpleBridgeLoadNode": SimpleBridgeLoadNode,
-    "SimpleTextLoader": TextLoadNode
+    "LoraTextLoader": LoraTextLoader
 }
 
 # Node display names
 NODE_DISPLAY_NAME_MAPPINGS = {
     "SimpleBridgeStoreNode": "SimpleBridge Store",
     "SimpleBridgeLoadNode": "SimpleBridge Load",
-    "SimpleTextLoader": "FileText as String"
+    "LoraTextLoader": "LoraTextFile as String"
 }
 
 __all__ = ["NODE_CLASS_MAPPINGS", "NODE_DISPLAY_NAME_MAPPINGS"]

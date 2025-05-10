@@ -2,26 +2,31 @@ cat = "XchanBik/Text"
 
 import os
 
-class TextLoadNode:
+class LoraTextLoader:
     @classmethod
     def INPUT_TYPES(cls):
         return {
             "required": {
-                "file_path": ("STRING", {"default": "base.txt"}),  # Path to your text file
+                "text_file": (['None'] + folder_paths.get_filename_list("loras_texts"),),  # Load .txt files
             }
         }
 
-    RETURN_TYPES = ("STRING",)
-    RETURN_NAMES = ("loaded_text",)
-    FUNCTION = "load_text_from_file"
+    RETURN_TYPES = ("STRING",)  # We return the text as a string
+    FUNCTION = "load_text"  # The function that will load the text	
     CATEGORY = cat
 
-    def load_text_from_file(self, file_path):
-        if not os.path.exists(file_path):
-            print(f"Error: File {file_path} not found.")
-            return ("",)  # Return an empty string if the file is not found
+    def load_text(self, text_file):
+        # Make sure the file is selected and exists
+        if text_file == 'None' or not os.path.isfile(text_file):
+            print(f"[LoraTextLoader] Error: The file {text_file} is not valid.")
+            return ("",)  # Return an empty string in case of error
 
-        with open(file_path, "r") as file:
-            loaded_text = file.read()
-
-        return (loaded_text,)  # Return the content of the text file as a string
+        try:
+            # Read the content of the text file
+            with open(text_file, "r") as f:
+                content = f.read()
+                print(f"[LoraTextLoader] Successfully loaded content from {text_file}")
+                return (content,)  # Return the content as a string
+        except Exception as e:
+            print(f"[LoraTextLoader] Error loading file {text_file}: {e}")
+            return ("",)

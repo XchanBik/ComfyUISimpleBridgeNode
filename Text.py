@@ -2,7 +2,7 @@ cat = "XchanBik/Text"
 
 import os
 import folder_paths
-from Utils import get_filename_list
+from .Utils import get_filename_list
     
 class LoraTextLoader:
     @classmethod

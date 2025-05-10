@@ -1,98 +1,79 @@
+import os
+import json
+from .utils import FlexibleType, any_type, AnyType
+
+# Global storage dictionary for sharing data between nodes
 bridge_store = {}
+
 class BridgeStoreNode:
+    """Store node that accepts any type of input and saves it with a unique identifier"""
+    
     @classmethod
     def INPUT_TYPES(cls):
         return {
             "required": {
-                "bridge_id": ("STRING", {"default": "my_key"}),
+                "bridge_id": ("STRING", {"default": "my_key"})
             },
-            "optional": {
-                "data_vae": ("VAE",),
-                "data_model": ("MODEL",),
-                "data_latent": ("LATENT",),
-                "data_conditioning": ("CONDITIONING",),
-                "data_image": ("IMAGE",),
-                "data_string": ("STRING",),
-                "data_any": ("ANY",),  # To accept any arbitrary type
-            }
+            "optional": FlexibleType(any_type),
         }
-
-    RETURN_TYPES = ()
+        
+    RETURN_TYPES = ()  # Store node doesn't return anything
     FUNCTION = "store"
     CATEGORY = "SimpleBridgeNode"
-
-    def store(self, bridge_id, data_vae=None, data_model=None, data_latent=None, data_conditioning=None, data_image=None, data_string=None, data_any=None):
-        # Handle dynamic data type storage
-        data = None
-        data_type = None
-
-        # Check which data is provided and store it
-        if data_vae is not None:
-            data = data_vae
-            data_type = "VAE"
-        elif data_model is not None:
-            data = data_model
-            data_type = "MODEL"
-        elif data_latent is not None:
-            data = data_latent
-            data_type = "LATENT"
-        elif data_conditioning is not None:
-            data = data_conditioning
-            data_type = "CONDITIONING"
-        elif data_image is not None:
-            data = data_image
-            data_type = "IMAGE"
-        elif data_string is not None:
-            data = data_string
-            data_type = "STRING"
-        elif data_any is not None:
-            data = data_any
-            data_type = "ANY"
-        else:
-            raise ValueError("No valid data provided for the bridge store.")
-
-        # Store the data with its type
-        bridge_store[bridge_id] = {
-            "data": data,
-            "type": data_type
-        }
+    
+    def store(self, bridge_id, **kwargs):
+        """Store any inputs passed to the node"""
+        for key, value in kwargs.items():
+            if key.startswith("any_") and value is not None:
+                # Store both the data and metadata about its type
+                bridge_store[bridge_id] = {
+                    "data": value,
+                    "input_name": key,
+                    "type": type(value).__name__
+                }
+                break  # Only store the first non-None input
+        
         return ()
 
 class BridgeLoadNode:
+    """Load node that returns data with the correct type based on the bridge_id"""
+    
     @classmethod
     def INPUT_TYPES(cls):
-        # Gather current keys in the store for dropdown UI
-        key_list = list(bridge_store.keys())
-        if not key_list:
-            key_list = ["<no_data>"]
-
         return {
             "required": {
-                "bridge_id": (key_list,)
+                "bridge_id": ("STRING", {"default": "my_key"})
             }
         }
-
-    RETURN_TYPES = ("ANY",)  # Default/fallback
-    RETURN_NAMES = ("data",)
+        
+    RETURN_TYPES = (any_type,)  # Return any type
+    RETURN_NAMES = ('*',)
     FUNCTION = "load"
     CATEGORY = "SimpleBridgeNode"
+    OUTPUT_NODE = True
     
     def load(self, bridge_id):
+        """Load data from the bridge store by bridge_id"""
         if bridge_id not in bridge_store:
-            raise ValueError(f"[BridgeLoadNode] ID '{bridge_id}' not found.")
-        data = bridge_store[bridge_id]["data"]
-        return (data,)
+            print(f"[BridgeLoadNode] Warning: ID '{bridge_id}' not found.")
+            return (None,)
+            
+        # Return the stored data
+        return (bridge_store[bridge_id]["data"],)
 
+# Node class mappings required by ComfyUI
 NODE_CLASS_MAPPINGS = {
     "SimpleBridgeStore": BridgeStoreNode,
     "SimpleBridgeLoad": BridgeLoadNode,
 }
 
+# Display names for the UI
 NODE_DISPLAY_NAME_MAPPINGS = {
     "SimpleBridgeStore": "Simple Bridge Store",
     "SimpleBridgeLoad": "Simple Bridge Load",
 }
 
+# Category mappings
 NODE_CATEGORY_MAPPINGS = {
     "SimpleBridgeStore": "SimpleBridgeNode",
     "SimpleBridgeLoad": "SimpleBridgeNode",

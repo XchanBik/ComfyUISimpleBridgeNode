@@ -12,10 +12,13 @@ def filter_files_by_extension(files: list[str], extension: str) -> list[str]:
     
 class LoraTextLoader:
     @classmethod
-    def INPUT_TYPES(cls):
+    def INPUT_TYPES(cls):        
+        lora_list = filter_files_by_extension("loras", extension=".txt")
+        if 0 == len(lora_list):
+            lora_list.insert(0, "None")
         return {
             "required": {
-                "text_file": (['None'] + filter_files_by_extension("loras", extension=".txt")),  # Load .txt files
+                "lora_name": (lora_list, ),
             }
         }
 
@@ -23,18 +26,19 @@ class LoraTextLoader:
     FUNCTION = "load_text"  # The function that will load the text	
     CATEGORY = cat
 
-    def load_text(self, text_file):
+    def load_text(self, lora_name):
         # Make sure the file is selected and exists
-        if text_file == 'None' or not os.path.isfile(text_file):
-            print(f"[LoraTextLoader] Error: The file {text_file} is not valid.")
+        if "None" == lora_name:
+            print(f"[LoraTextLoader] Error: The file {lora_name} is not valid.")
             return ("",)  # Return an empty string in case of error
 
+        lora_path = folder_paths.get_full_path("loras", lora_name)
         try:
             # Read the content of the text file
-            with open(text_file, "r") as f:
+            with open(lora_path, "r") as f:
                 content = f.read()
-                print(f"[LoraTextLoader] Successfully loaded content from {text_file}")
+                print(f"[LoraTextLoader] Successfully loaded content from {lora_path}")
                 return (content,)  # Return the content as a string
         except Exception as e:
-            print(f"[LoraTextLoader] Error loading file {text_file}: {e}")
+            print(f"[LoraTextLoader] Error loading file {lora_path}: {e}")
             return ("",)

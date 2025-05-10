@@ -7,8 +7,8 @@ def filter_files_by_extension(files: list[str], extension: str) -> list[str]:
     # Call the existing function
     filename_list, folders_all, timestamp = folder_paths.get_filename_list_("loras")
     
-    # Filter the result by extension outside the base code
-    return [file for file in filename_list if file.endswith(str)]
+    # Filter the result by extension
+    return [file for file in filename_list if file.endswith(extension)]  # Use 'extension', not 'str'
     
 class LoraTextLoader:
     @classmethod

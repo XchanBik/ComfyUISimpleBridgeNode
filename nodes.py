@@ -13,7 +13,7 @@ class BridgeStoreNode:
     RETURN_TYPES = ()
     FUNCTION = "store"
 
-    CATEGORY = "bridge"
+    CATEGORY = "SimpleBridgeNode"
 
     def store(self, data, bridge_id):
         # Store both data and its type for later use
@@ -50,7 +50,7 @@ class BridgeLoadNode:
     RETURN_NAMES = ("data",)
     FUNCTION = "load"
 
-    CATEGORY = "bridge"
+    CATEGORY = "SimpleBridgeNode"
 
     def load(self, bridge_id):
         if bridge_id not in bridge_store:
@@ -66,9 +66,4 @@ NODE_CLASS_MAPPINGS = {
 NODE_DISPLAY_NAME_MAPPINGS = {
     "SimpleBridgeStore": "Simple Bridge Store",
     "SimpleBridgeLoad": "Simple Bridge Load",
-}
-
-NODE_CATEGORY_MAPPINGS = {
-    "SimpleBridgeStore": "Simple Bridge Node",
-    "SimpleBridgeLoad": "Simple Bridge Node",
 }

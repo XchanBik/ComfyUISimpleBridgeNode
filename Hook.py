@@ -37,7 +37,8 @@ class MinimalWorkflowInterceptor:
         if not server_instance:
             print("MINIMAL HOOK (init): Instance de PromptServer non disponible lors de l'initialisation de l'intercepteur.")
             return
-            
+        print("PromptServer attributes:", dir(server_instance))
+        
         # Stocke la méthode originale. Elle est déjà liée à PROMPT_SERVER_INSTANCE.
         self.original_queue_prompt_method = PROMPT_SERVER_INSTANCE.queue_prompt
         print("MINIMAL HOOK (init): Méthode originale 'queue_prompt' stockée.")

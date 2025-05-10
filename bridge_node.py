@@ -18,17 +18,13 @@ any = AnyType("*")
 # Global bridge storage
 class BridgeStorage:
     def __init__(self):
-        self.storage = {}
-    
+        self.storage = {}    
     def store(self, name, data):
-        self.storage[name] = data
-    
+        self.storage[name] = data    
     def get(self, name):
-        return self.storage.get(name)
-    
+        return self.storage.get(name)    
     def has(self, name):
         return name in self.storage
-
 # Create a global bridge storage instance
 bridge_storage = BridgeStorage()
 
@@ -44,9 +40,6 @@ class SimpleBridgeStoreNode:
                 "value": (any, {}),
             }
         }
-    
-    RETURN_TYPES = (any,)
-    RETURN_NAMES = ("value",)
     FUNCTION = "store_value"
     CATEGORY = "SimpleBridge"
     

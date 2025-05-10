@@ -1,0 +1,13 @@
+[project]
+name = "comfyui_xchanbik_simple_bridge_node"
+description = "This node can store a route with a chosen ID then load it anywhere in the workflow. Goal it to make linking less messy in my taste."
+version = "1.0.0"
+license = "LICENSE"
+
+[project.urls]
+Repository = "https://github.com/XchanBik/ComfyUI_SimpleBridgeNode"
+
+[tool.comfy]
+PublisherId = "xchanbik"
+DisplayName = "ComfyUI_SimpleBridgeNode"
+Icon = ""

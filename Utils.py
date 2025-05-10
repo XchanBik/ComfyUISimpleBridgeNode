@@ -6,7 +6,7 @@ import logging
 from typing import Literal, List
 from collections.abc import Collection
 
-def filter_files_extensions(files: Collection[str], extensions: Collection[str]) -> list[str]:
+def filter_files_by_extension(files: Collection[str], extensions: Collection[str]) -> list[str]:
     return sorted(list(filter(lambda a: os.path.splitext(a)[-1].lower() in extensions or len(extensions) == 0, files)))
   
 def get_filename_list(folder_name: str, extension: str) -> tuple[list[str], dict[str, float], float]:

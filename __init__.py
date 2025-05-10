@@ -5,6 +5,7 @@
 """
 from .Text import LoraTextLoader
 from .Bridge import SimpleBridgeStoreNode, SimpleBridgeLoadNode
+from .Hook import MinimalWorkflowInterceptor
 
 def __init__(self):
     pass

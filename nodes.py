@@ -67,3 +67,8 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "SimpleBridgeStore": "Simple Bridge Store",
     "SimpleBridgeLoad": "Simple Bridge Load",
 }
+
+NODE_CATEGORY_MAPPINGS = {
+    "SimpleBridgeStore": "SimpleBridgeNode",
+    "SimpleBridgeLoad": "SimpleBridgeNode",
+}

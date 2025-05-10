@@ -1,11 +1,3 @@
-
-### Contents of `bridge_nodes.py`:
-
-You can include the same Python code you mentioned:
-
-```python
-# bridge_nodes.py
-
 bridge_store = {}
 
 class BridgeStoreNode:

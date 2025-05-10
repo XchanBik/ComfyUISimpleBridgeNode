@@ -7,6 +7,9 @@ def filter_files_by_extension(files: list[str], extension: str) -> list[str]:
     # Call the existing function
     filename_list, folders_all, timestamp = folder_paths.get_filename_list_("loras")
     
+    # Debug print to verify filenames
+    print(f"[filter_files_by_extension] Files found: {filename_list}")
+    
     # Filter the result by extension
     return [file for file in filename_list if file.endswith(extension)]
     

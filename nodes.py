@@ -6,6 +6,26 @@ Based directly on ComfyUI's Reroute node implementation.
 # Global storage dictionary for sharing data between nodes
 bridge_store = {}
 
+# For reference, this is similar to how the official Reroute node works in ComfyUI:
+class MyReroute:
+    """Example of ComfyUI's Reroute node (for reference)"""
+    
+    @classmethod
+    def INPUT_TYPES(cls):
+        return {"required": {}}
+
+    RETURN_TYPES = ("*",)
+    FUNCTION = "route"
+    CATEGORY = "SimpleBridgeNode"
+    
+    # This is the flag that enables any input type
+    INPUT_IS_LIST = True
+
+    def route(self, **kwargs):
+        for v in kwargs.values():
+            return (v,)
+
+
 class BridgeStoreNode:
     """Store node that accepts any input and saves it with a unique identifier"""
      
@@ -62,18 +82,22 @@ class BridgeLoadNode:
 
 # Node class mappings required by ComfyUI
 NODE_CLASS_MAPPINGS = {
+    "MyReroute": MyReroute,
     "SimpleBridgeStore": BridgeStoreNode,
     "SimpleBridgeLoad": BridgeLoadNode,
 }
 
+
 # Display names for the UI
 NODE_DISPLAY_NAME_MAPPINGS = {
+    "MyReroute": "MyReroute Test",
     "SimpleBridgeStore": "Simple Bridge Store",
     "SimpleBridgeLoad": "Simple Bridge Load",
 }
 
 # Category mappings for organization in the node menu
 NODE_CATEGORY_MAPPINGS = {
+    "MyReroute": "SimpleBridgeNode",
     "SimpleBridgeStore": "SimpleBridgeNode",
     "SimpleBridgeLoad": "SimpleBridgeNode",
 }

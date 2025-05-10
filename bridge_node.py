@@ -45,11 +45,11 @@ class SimpleBridgeStoreNode:
     CATEGORY = "SimpleBridge"
     
     def store_value(self, bridge_name, value=None):
-        # Store the value in the bridge storage
         if value is not None:
             bridge_storage.store(bridge_name, value)
-        
-        # Return the value directly (passthrough)
+            print(f"[SimpleBridge] Stored value under '{bridge_name}': {type(value)}")
+        else:
+            print(f"[SimpleBridge] Tried to store None under '{bridge_name}'")
         return (value,)
 
 # Load Bridge Node

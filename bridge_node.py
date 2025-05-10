@@ -41,6 +41,7 @@ class SimpleBridgeStoreNode:
             }
         }
     RETURN_TYPES = ()
+    OUTPUT_NODE = True
     FUNCTION = "store_value"
     CATEGORY = "SimpleBridge"
     

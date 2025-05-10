@@ -1,103 +1,40 @@
 """
-SimpleBridge - A node system that allows you to bridge connections across distant parts of a workflow.
-Based directly on ComfyUI's Reroute node implementation.
+Custom Reroute Node - A simple reroute node implementation for ComfyUI
 """
 
-# Global storage dictionary for sharing data between nodes
-bridge_store = {}
-
-# For reference, this is similar to how the official Reroute node works in ComfyUI:
-class MyReroute:
-    """Example of ComfyUI's Reroute node (for reference)"""
+class CustomReroute:
+    """A custom implementation of a reroute node"""
     
     @classmethod
-    def INPUT_TYPES(cls):
+    def INPUT_TYPES(s):
         return {"required": {}}
-
+    
     RETURN_TYPES = ("*",)
-    FUNCTION = "route"
+    FUNCTION = "reroute"
     CATEGORY = "SimpleBridgeNode"
     
-    # This is the flag that enables any input type
+    # This flag tells ComfyUI this node can receive any input type
     INPUT_IS_LIST = True
-
-    def route(self, **kwargs):
-        for v in kwargs.values():
-            return (v,)
-
-
-class BridgeStoreNode:
-    """Store node that accepts any input and saves it with a unique identifier"""
-     
-    @classmethod
-    def INPUT_TYPES(cls):
-        return {"required": {}}  
-    # Flag that tells ComfyUI this node can accept any input type
-    INPUT_IS_LIST = True      
     
-    RETURN_TYPES = ()
-    FUNCTION = "store"
-    CATEGORY = "SimpleBridgeNode"
-    
-    
-    def store(self, bridge_id, **kwargs):
-        """Store the input data with the given bridge_id"""
-        # Extract the first input value that isn't bridge_id
-        for key, value in kwargs.items():
-            if key != 'bridge_id':
-                # Store both the value and its type information
-                bridge_store[bridge_id] = {
-                    "value": value,
-                    "type_name": key  # The key contains the input type information
-                }
-                break
+    def reroute(self, **kwargs):
+        """Simply pass through whatever input is received"""
+        # Get the first value from kwargs (if any)
+        for value in kwargs.values():
+            return (value,)
         
-        return ()
+        # If no inputs connected, return None
+        return (None,)
 
-class BridgeLoadNode:
-    """Load node that returns data with the correct type based on bridge_id"""
-    
-    @classmethod
-    def INPUT_TYPES(cls):
-        return {
-            "required": {
-                "bridge_id": ("STRING", {"default": "my_key"})
-            }
-        }
-    
-    # The wildcard type - tells ComfyUI this can output any type
-    RETURN_TYPES = ("*",)
-    RETURN_NAMES = ("data",)
-    FUNCTION = "load"
-    CATEGORY = "SimpleBridgeNode"
-    
-    def load(self, bridge_id):
-        """Load data from the bridge store by bridge_id"""
-        if bridge_id not in bridge_store:
-            print(f"[BridgeLoadNode] Warning: ID '{bridge_id}' not found.")
-            return (None,)
-        
-        # Return the stored value
-        return (bridge_store[bridge_id]["value"],)
-
-# Node class mappings required by ComfyUI
+# These mappings are required by ComfyUI to register your nodes
 NODE_CLASS_MAPPINGS = {
-    "MyReroute": MyReroute,
-    "SimpleBridgeStore": BridgeStoreNode,
-    "SimpleBridgeLoad": BridgeLoadNode,
+    "CustomReroute": CustomReroute
 }
 
-
-# Display names for the UI
 NODE_DISPLAY_NAME_MAPPINGS = {
-    "MyReroute": "MyReroute Test",
-    "SimpleBridgeStore": "Simple Bridge Store",
-    "SimpleBridgeLoad": "Simple Bridge Load",
+    "CustomReroute": "Custom Reroute"
 }
 
 # Category mappings for organization in the node menu
 NODE_CATEGORY_MAPPINGS = {
-    "MyReroute": "SimpleBridgeNode",
-    "SimpleBridgeStore": "SimpleBridgeNode",
-    "SimpleBridgeLoad": "SimpleBridgeNode",
+    "CustomReroute": "SimpleBridgeNode"
 }

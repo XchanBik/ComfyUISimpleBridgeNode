@@ -40,6 +40,7 @@ class SimpleBridgeStoreNode:
                 "value": (any, {}),
             }
         }
+    RETURN_TYPES = ()
     FUNCTION = "store_value"
     CATEGORY = "SimpleBridge"
     
@@ -86,7 +87,7 @@ class SimpleBridgeDynamic:
         }
     
     # Use dynamic return types based on what's stored
-    RETURN_TYPES = None
+    RETURN_TYPES = ()
     FUNCTION = "load_value"
     CATEGORY = "SimpleBridge"
     

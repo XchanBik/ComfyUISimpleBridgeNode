@@ -3,6 +3,7 @@ import time
 import mimetypes
 import logging
 from typing import Literal, List
+from comfy.cli_args import args
 from collections.abc import Collection
 
 # --base-directory - Resets all default paths configured in folder_paths with a new base path

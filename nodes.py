@@ -1,33 +1,62 @@
 bridge_store = {}
-
 class BridgeStoreNode:
     @classmethod
     def INPUT_TYPES(cls):
         return {
             "required": {
-                "model": ("MODEL", ),
-                "dataBis": ("MODEL", ["LATENT", "CONDITIONING", "IMAGE", "STRING", "ANY"],),
-                "dataTis": (["MODEL","LATENT", "CONDITIONING", "IMAGE", "STRING", "ANY"],),
-                "data": (["LATENT", "CONDITIONING", "IMAGE", "STRING", "ANY"],),
-                "bridge_id": ("STRING", {"default": "my_key"})
+                "bridge_id": ("STRING", {"default": "my_key"}),
             },
             "optional": {
-                "vae": ("VAE",),
+                "data_vae": ("VAE",),
+                "data_model": ("MODEL",),
+                "data_latent": ("LATENT",),
+                "data_conditioning": ("CONDITIONING",),
+                "data_image": ("IMAGE",),
+                "data_string": ("STRING",),
+                "data_any": ("ANY",),  # To accept any arbitrary type
             }
         }
+
     RETURN_TYPES = ()
     FUNCTION = "store"
+    CATEGORY = "bridge"
 
-    CATEGORY = "SimpleBridgeNode"
+    def store(self, bridge_id, data_vae=None, data_model=None, data_latent=None, data_conditioning=None, data_image=None, data_string=None, data_any=None):
+        # Handle dynamic data type storage
+        data = None
+        data_type = None
 
-    def store(self, data, bridge_id):
-        # Store both data and its type for later use
+        # Check which data is provided and store it
+        if data_vae is not None:
+            data = data_vae
+            data_type = "VAE"
+        elif data_model is not None:
+            data = data_model
+            data_type = "MODEL"
+        elif data_latent is not None:
+            data = data_latent
+            data_type = "LATENT"
+        elif data_conditioning is not None:
+            data = data_conditioning
+            data_type = "CONDITIONING"
+        elif data_image is not None:
+            data = data_image
+            data_type = "IMAGE"
+        elif data_string is not None:
+            data = data_string
+            data_type = "STRING"
+        elif data_any is not None:
+            data = data_any
+            data_type = "ANY"
+        else:
+            raise ValueError("No valid data provided for the bridge store.")
+
+        # Store the data with its type
         bridge_store[bridge_id] = {
             "data": data,
-            "type": type(data).__name__
+            "type": data_type
         }
         return ()
-
 
 class BridgeLoadNode:
     @classmethod
@@ -43,25 +72,16 @@ class BridgeLoadNode:
             }
         }
 
-    # Dynamically determine output type
-    def get_return_types(self, bridge_id=None):
-        if bridge_id in bridge_store:
-            type_name = bridge_store[bridge_id]["type"]
-            # Fallback: return as ANY if unknown
-            return (type_name,) if type_name in {"LATENT", "CONDITIONING", "IMAGE", "STRING"} else ("ANY",)
-        return ("ANY",)
-
     RETURN_TYPES = ("ANY",)  # Default/fallback
     RETURN_NAMES = ("data",)
     FUNCTION = "load"
-
-    CATEGORY = "SimpleBridgeNode"
+    CATEGORY = "bridge"
 
     def load(self, bridge_id):
         if bridge_id not in bridge_store:
             raise ValueError(f"[BridgeLoadNode] ID '{bridge_id}' not found.")
-        return (bridge_store[bridge_id]["data"],)
-
+        data = bridge_store[bridge_id]["data"]
+        return (data,)
 
 NODE_CLASS_MAPPINGS = {
     "SimpleBridgeStore": BridgeStoreNode,

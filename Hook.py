@@ -1,24 +1,24 @@
-# ComfyUI/custom_nodes/minimal_hook_extension.py
-
 import types
+import server
 import json # Pour un affichage lisible du workflow
 
 # --- Récupération de l'instance de PromptServer ---
 # Ceci est la manière standard dont les composants de ComfyUI accèdent à l'instance du serveur.
 # Cela suppose que server.py de ComfyUI a initialisé PromptServer.instance.
 PROMPT_SERVER_INSTANCE = None
-try:
-    # Importe le module 'server' de ComfyUI
-    import server
-    if hasattr(server, 'PromptServer') and hasattr(server.PromptServer, 'instance'):
-        PROMPT_SERVER_INSTANCE = server.PromptServer.instance
-        print("MINIMAL HOOK: Instance de PromptServer trouvée.")
-    else:
-        print("MINIMAL HOOK: 'server.PromptServer.instance' non trouvée après l'import du module 'server'.")
-except ImportError:
-    print("MINIMAL HOOK: Impossible d'importer le module 'server'. Le hook ne peut pas être installé de cette manière.")
-except Exception as e:
-    print(f"MINIMAL HOOK: Erreur lors de la récupération de l'instance du serveur : {e}")
+
+def get_prompt_server():
+    try:
+        # Importe le module 'server' de ComfyUI
+        if hasattr(server, 'PromptServer') and hasattr(server.PromptServer, 'instance'):
+            PROMPT_SERVER_INSTANCE = server.PromptServer.instance
+            print("MINIMAL HOOK: Instance de PromptServer trouvée.")
+        else:
+            print("MINIMAL HOOK: 'server.PromptServer.instance' non trouvée après l'import du module 'server'.")
+    except ImportError:
+        print("MINIMAL HOOK: Impossible d'importer le module 'server'. Le hook ne peut pas être installé de cette manière.")
+    except Exception as e:
+        print(f"MINIMAL HOOK: Erreur lors de la récupération de l'instance du serveur : {e}")
 
 # --- Classe pour gérer l'interception ---
 class MinimalWorkflowInterceptor:

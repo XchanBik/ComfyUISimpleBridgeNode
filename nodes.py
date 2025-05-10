@@ -19,7 +19,7 @@ class BridgeStoreNode:
 
     RETURN_TYPES = ()
     FUNCTION = "store"
-    CATEGORY = "bridge"
+    CATEGORY = "SimpleBridgeNode"
 
     def store(self, bridge_id, data_vae=None, data_model=None, data_latent=None, data_conditioning=None, data_image=None, data_string=None, data_any=None):
         # Handle dynamic data type storage
@@ -75,8 +75,8 @@ class BridgeLoadNode:
     RETURN_TYPES = ("ANY",)  # Default/fallback
     RETURN_NAMES = ("data",)
     FUNCTION = "load"
-    CATEGORY = "bridge"
-
+    CATEGORY = "SimpleBridgeNode"
+    
     def load(self, bridge_id):
         if bridge_id not in bridge_store:
             raise ValueError(f"[BridgeLoadNode] ID '{bridge_id}' not found.")

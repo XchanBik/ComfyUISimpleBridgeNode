@@ -67,11 +67,16 @@ class BridgeLoadNode:
 
 
 NODE_CLASS_MAPPINGS = {
-    "BridgeStore": BridgeStoreNode,
-    "BridgeLoad": BridgeLoadNode,
+    "SimpleBridgeStore": BridgeStoreNode,
+    "SimpleBridgeLoad": BridgeLoadNode,
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
-    "BridgeStore": "🔗 Bridge Store (ID)",
-    "BridgeLoad": "🔗 Bridge Load (Selector)",
+    "SimpleBridgeStore": "Simple Bridge Store",
+    "SimpleBridgeLoad": "Simple Bridge Load",
+}
+
+NODE_CATEGORY_MAPPINGS = {
+    "SimpleBridgeStore": "Simple Bridge Node",
+    "SimpleBridgeLoad": "Simple Bridge Node",
 }

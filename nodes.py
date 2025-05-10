@@ -5,7 +5,9 @@ class BridgeStoreNode:
     def INPUT_TYPES(cls):
         return {
             "required": {
-                "model": ("MODEL", ),            
+                "model": ("MODEL", ),
+                "dataBis": ("MODEL", ["LATENT", "CONDITIONING", "IMAGE", "STRING", "ANY"],),
+                "dataTis": (["MODEL","LATENT", "CONDITIONING", "IMAGE", "STRING", "ANY"],),
                 "data": (["LATENT", "CONDITIONING", "IMAGE", "STRING", "ANY"],),
                 "bridge_id": ("STRING", {"default": "my_key"})
             },

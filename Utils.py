@@ -1,4 +1,4 @@
-from folder_paths import recursive_search
+from folder_paths import recursive_search, folder_names_and_paths
 import os
 import time
 import mimetypes

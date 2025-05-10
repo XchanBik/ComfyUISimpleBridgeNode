@@ -42,7 +42,7 @@ class SimpleBridgeStoreNode:
     RETURN_TYPES = (any,)
     RETURN_NAMES = ("value",)
     FUNCTION = "store_value"
-    CATEGORY = "utils"
+    CATEGORY = "SimpleBridge"
     
     def store_value(self, bridge_name, value=None):
         # Store the value in the bridge storage
@@ -65,7 +65,7 @@ class SimpleBridgeLoadNode:
     RETURN_TYPES = (any,)
     RETURN_NAMES = ("value",)
     FUNCTION = "load_value"
-    CATEGORY = "utils"
+    CATEGORY = "SimpleBridge"
     
     def load_value(self, bridge_name):
         # Get the value from the bridge storage
@@ -89,7 +89,7 @@ class SimpleBridgeDynamic:
     # Use dynamic return types based on what's stored
     RETURN_TYPES = None
     FUNCTION = "load_value"
-    CATEGORY = "utils"
+    CATEGORY = "SimpleBridge"
     
     @classmethod
     def IS_CHANGED(cls, bridge_name):

@@ -38,7 +38,22 @@ class MinimalWorkflowInterceptor:
             print("MINIMAL HOOK (init): Instance de PromptServer non disponible lors de l'initialisation de l'intercepteur.")
             return
         print("PromptServer attributes:", dir(server_instance))
+        if not hasattr(server_instance, 'trigger_on_prompt'):
+            print("MINIMAL HOOK (init): L'attribut 'trigger_on_prompt' est introuvable.")
+            return None
+
+        self.original_trigger_method = server_instance.trigger_on_prompt
+
+        def hooked_trigger_on_prompt(*args, **kwargs):
+            print("📥 MINIMAL HOOK: trigger_on_prompt called")
+            print(f"  → args: {args}")
+            print(f"  → kwargs: {kwargs}")
+            return self.original_trigger_method(*args, **kwargs)
+
+        server_instance.trigger_on_prompt = hooked_trigger_on_prompt
+        print("✅ MINIMAL HOOK: Hook installé sur 'trigger_on_prompt'")
         
+        """
         # Stocke la méthode originale. Elle est déjà liée à PROMPT_SERVER_INSTANCE.
         self.original_queue_prompt_method = PROMPT_SERVER_INSTANCE.queue_prompt
         print("MINIMAL HOOK (init): Méthode originale 'queue_prompt' stockée.")
@@ -62,7 +77,8 @@ class MinimalWorkflowInterceptor:
             # Tenter de restaurer si le patch a échoué et que l'original a été stocké
             if self.original_queue_prompt_method:
                 PROMPT_SERVER_INSTANCE.queue_prompt = self.original_queue_prompt_method
-                print("MINIMAL HOOK: Tentative de restauration de la méthode originale 'queue_prompt' suite à une erreur d'installation.")       
+                print("MINIMAL HOOK: Tentative de restauration de la méthode originale 'queue_prompt' suite à une erreur d'installation.") 
+        """
 
     def hooked_queue_prompt(self, server_instance_passed_by_type, *args, **kwargs):
         """

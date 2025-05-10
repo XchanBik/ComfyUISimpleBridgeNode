@@ -63,6 +63,9 @@ class SimpleBridgeLoadNode:
         return {
             "required": {
                 "bridge_name": ("STRING", {"default": "bridge1"})
+            },
+            "optional": {
+                "dependency": (any, {}),
             }
         }
     RETURN_TYPES = (any,)
@@ -70,7 +73,7 @@ class SimpleBridgeLoadNode:
     FUNCTION = "load_value"
     CATEGORY = cat
 
-    def load_value(self, bridge_name):
+    def load_value(self, bridge_name, dependency=None):
         # Get the value from the bridge storage
         value = bridge_storage.get(bridge_name)
 

@@ -46,8 +46,6 @@ class MinimalWorkflowInterceptor:
 
         def hooked_trigger_on_prompt(*args, **kwargs):
             print("📥 MINIMAL HOOK: trigger_on_prompt called")
-            print(f"  → args: {args}")
-            print(f"  → kwargs: {kwargs}")
             return self.original_trigger_method(*args, **kwargs)
 
         server_instance.trigger_on_prompt = hooked_trigger_on_prompt

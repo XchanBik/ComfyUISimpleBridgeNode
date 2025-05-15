@@ -5,7 +5,9 @@ from comfy.cli_args import args # For your custom path logic
 if args.base_directory:
     user_base_path = os.path.abspath(args.base_directory)
 else:
-    user_base_path = os.path.dirname(os.path.realpath(__file__))
+    # Go up 2 directories to reach ComfyUI root from custom_nodes/comfyui-SimpleTextNode
+    user_base_path = os.path.abspath(os.path.join(os.path.dirname(os.path.realpath(__file__)), "..", ".."))
+
 user_models_dir = os.path.join(user_base_path, "models")
 
 # Log the determined models_dir for easier debugging by the 

@@ -22,7 +22,7 @@ def get_files_with_ext(folder_name: str, extension: str) -> list[str]:
     
     if not os.path.isdir(full_scan_path):
         logging.warning(f"[SimpleTextFileSelector] Target subfolder for .txt files not found: {full_scan_path}. "
-                        f"(This path is 'user_models_dir' / '{target_subfolder_name}')")
+                        f"(This path is 'user_models_dir' / '{folder_name}')")
         return ["None"] # ComfyUI dropdowns expect a list; "None" is a safe default.
     
     txt_files_found = []
